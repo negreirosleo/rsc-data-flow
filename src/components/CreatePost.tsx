@@ -17,8 +17,14 @@ import { Textarea } from '@/components/ui/textarea'
 import { createPost } from '@/actions/posts'
 import { useEffect, useState } from 'react'
 import { useToast } from '@/components/ui/use-toast'
+import { Post } from '@/domain/Post'
 
-export const CreatePost = () => {
+type CreatePostProps = {
+  addPost: (payload: Post) => void
+  postCount: number
+}
+
+export const CreatePost = ({ addPost, postCount }: CreatePostProps) => {
   const { toast } = useToast()
   const [open, setOpen] = useState(false)
   const [state, formAction] = useFormState(createPost, {
@@ -29,11 +35,12 @@ export const CreatePost = () => {
   useEffect(() => {
     if (state.data) {
       setOpen(false)
+
       toast({
         title: 'New post created'
       })
     }
-  }, [state.data, toast])
+  }, [addPost, state.data, toast])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -42,10 +49,22 @@ export const CreatePost = () => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create a new Post</DialogTitle>
+          <DialogTitle>Create a new Post (posts count: {postCount})</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
-        <form action={formAction} className="grid gap-4 py-4">
+        <form
+          action={(formData) => {
+            addPost({
+              title: formData.get('title')?.toString() || '',
+              body: formData.get('body')?.toString() || '',
+              views: 0,
+              id: `temp-id-${Math.random()}`
+            })
+
+            formAction(formData)
+          }}
+          className="grid gap-4 py-4"
+        >
           <div className="items-center align gap-4">
             <Label htmlFor="title" className="text-right">
               Title
