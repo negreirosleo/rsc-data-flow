@@ -34,11 +34,18 @@ export const CreatePost = () => {
         </DialogHeader>
         <form
           action={async (data) => {
-            await createPost(data)
-            setOpen(false)
-            toast({
-              title: 'New post created'
-            })
+            const result = await createPost(data)
+            if (result.error) {
+              toast({
+                title: result.error,
+                variant: 'destructive'
+              })
+            } else {
+              setOpen(false)
+              toast({
+                title: 'New post created'
+              })
+            }
           }}
           className="grid gap-4 py-4"
         >
