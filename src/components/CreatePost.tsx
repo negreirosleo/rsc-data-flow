@@ -11,6 +11,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { revalidateTag } from 'next/cache'
 
 export const CreatePost = () => {
   async function createPost(formData: FormData) {
@@ -22,13 +23,19 @@ export const CreatePost = () => {
       views: 0
     }
 
-    fetch('http://localhost:3000/posts', {
+    const response = await fetch('http://localhost:3000/posts', {
       method: 'POST',
       body: JSON.stringify(rawFormData),
       headers: {
         'Content-type': 'application/json; charset=UTF-8'
       }
     })
+
+    revalidateTag('posts')
+
+    const data = await response.json()
+
+    return data
   }
 
   return (

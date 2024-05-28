@@ -3,7 +3,7 @@ import { Post } from '@/domain/Post'
 import { CreatePost } from '@/components/CreatePost'
 
 const getPosts = async () => {
-  const response = await fetch('http://localhost:3000/posts')
+  const response = await fetch('http://localhost:3000/posts', { next: { tags: ['posts'] } })
 
   const posts = await response.json()
 
