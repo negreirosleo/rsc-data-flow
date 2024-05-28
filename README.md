@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This project is an example of the usage of React Server Components alongside with Server Actions and the new React hooks.
 
 ## Getting Started
 
