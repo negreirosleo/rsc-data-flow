@@ -16,8 +16,10 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { createPost } from '@/actions/posts'
 import { useState } from 'react'
+import { useToast } from '@/components/ui/use-toast'
 
 export const CreatePost = () => {
+  const { toast } = useToast()
   const [open, setOpen] = useState(false)
 
   return (
@@ -34,6 +36,9 @@ export const CreatePost = () => {
           action={async (data) => {
             await createPost(data)
             setOpen(false)
+            toast({
+              title: 'New post created'
+            })
           }}
           className="grid gap-4 py-4"
         >
