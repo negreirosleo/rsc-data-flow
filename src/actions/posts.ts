@@ -3,7 +3,7 @@ import { Post, validatePost } from '@/domain/Post'
 import { revalidateTag } from 'next/cache'
 
 
-export async function createPost(formData: FormData) {
+export async function createPost(_: any,formData: FormData) {
   const rawFormData = {
     title: formData.get('title'),
     body: formData.get('body'),
@@ -12,8 +12,8 @@ export async function createPost(formData: FormData) {
 
   const validation = validatePost(rawFormData)
 
-  if(!validation.success) {
-    return { error: validation.message }
+  if(Object.values(validation).some((value) => !!value)) {
+    return { error: validation }
   }
 
   const response = await fetch('http://localhost:3000/posts', {

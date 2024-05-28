@@ -12,19 +12,21 @@ type PostIntent = {
 }
 
 export const validatePost = (newPost: PostIntent) => {
-  let errorMessage = ''
+  const errors: {
+    title: string | null
+    body: string | null
+  } = {
+    title: null,
+    body: null
+  }
 
   if (!newPost.title) {
-    errorMessage = 'Title is required.'
+    errors.title = 'Title is required.'
   }
 
   if (!newPost.body) {
-    errorMessage = `${errorMessage} Body is required.`
+    errors.body = 'Body is required.'
   }
 
-  if(errorMessage) {
-    return { success: false, message: errorMessage }
-  }
-
-  return { success: true, message: errorMessage }
+  return errors
 }
