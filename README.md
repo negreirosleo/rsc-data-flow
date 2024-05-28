@@ -2,7 +2,13 @@ This project is an example of the usage of React Server Components alongside wit
 
 ## Getting Started
 
-First, run the development server:
+First, run the mock backend server:
+
+```bash
+npx json-server db.json
+```
+
+Then, run the frontend dev server:
 
 ```bash
 npm run dev
